@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willkommen</title> 
+    <style>
+        body {
+            font-family: Helvetica Neue LT W1G 75 Bold;
+            color: #4D4D4D;
+            margin: 0;
+            padding: 10;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            background-color: white;
+            overflow: hidden;
+        }
+        .welcome-screen {
+            width: 100%;
+            height: 100vh;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 1s ease-in-out;
+        }
+        .header-img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 0px;
+        }
+        button {
+            padding: 30px 110px;
+            font-size: 22px;
+            cursor: pointer;
+            color: white;
+            margin-bottom: 300px;
+            text-align: center;
+			border-radius: 10px;
+			border-color:#F8AF00;
+			background: #F8AF00;
+        }
+        .check-in {
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('office.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: top 1s ease-in-out;
+            overflow: auto; /* Enable scrolling */
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            height: 630px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            text-align: left;
+            position: relative;
+        }
+        .form-group {
+            margin-bottom: 15px;                                                                                                                 
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+			font-size:18pt;
+        }
+        input {
+            width: 100%; /* Make input fields responsive */
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 20px;
+            border-radius: 10px;
+        }
+        .check-in-button {
+            width: 100%; /* Make button responsive */
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-screen" id="welcomeScreen">
+        <img src="Bluebar.jpg" alt="Header Image" class="header-img">
+        <h1>Willkommen bei Brother!!!</h1>
+        <button onclick="proceed()">Check-In</button>
+    </div>
+
+    <div class="check-in" id="checkInPage">
+        <div class="container">
+            <img src="Bluebar.jpg" alt="Header Image" class="header-img">
+        
+            <h1>Besucherausweiß Check-In</h1>
+			<div class="form-group">
+				<label for="anrede">Anrede</label>
+			<select id="anrede">
+				<option value="">-- Bitte wählen --</option>
+				<option value="Frau">Frau</option>
+				<option value="Herr">Herr</option>
+			</select>
+			</div>            
+			<div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="nachname">Nachname</label>
+                <input type="text" id="nachname" required>
+            </div>
+            <div class="form-group">
+                <label for="firma">Firmenname</label>
+                <input type="text" id="firma" required>
+            </div>
+
+            <button class="check-in-button" onclick="checkIn()">Check In</button>
+        </div>
+    </div>
+
+    <script>
+        function proceed() {
+            document.getElementById('welcomeScreen').style.transform = "translateY(-100vh)";
+            document.getElementById('checkInPage').style.top = "0";
+        }
+
+        function checkIn() {
+            const anrede = document.getElementById('anrede').value;
+            const name = document.getElementById('name').value;
+            const nachname = document.getElementById('nachname').value;
+            const firma = document.getElementById('firma').value;
+
+            const url = `brotherwebprint://print?filename=brother_visitor.lbx&size=visitor_brother.bin&text_anrede=${encodeURIComponent(anrede)}&text_nachname=${encodeURIComponent(nachname)}&const name = document.getElementById('name').value;
+&text_firma=${encodeURIComponent(firma)}`;
+            window.open(url, '_blank');
+
+            // Return to welcome page after check-in and reset the form
+            setTimeout(() => {
+                document.getElementById('checkInPage').style.top = "100vh";
+                document.getElementById('welcomeScreen').style.transform = "translateY(0)";
+                document.getElementById('anrede').value = '';
+                document.getElementById('name').value = '';
+                document.getElementById('nachname').value = '';
+                document.getElementById('firma').value = '';
+            }, 1000); // Delay to ensure the URL is opened first
+        }
+
+        // Add zoom functionality
+        document.addEventListener('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                document.body.style.zoom = (parseFloat(document.body.style.zoom) || 1) + event.deltaY * -0.01;
+            }
+        });
+
+        // Make the page fit to each display
+        function resize() {
+            document.body.style.zoom = window.innerWidth / document.body.offsetWidth;
+        }
+        window.addEventListener('resize', resize);
+        window.addEventListener('load', resize);
+    </script>
+</body>
+</html>
