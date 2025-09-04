@@ -147,8 +147,7 @@
             const nachname = document.getElementById('nachname').value;
             const firma = document.getElementById('firma').value;
 
-            const url = `brotherwebprint://print?filename=brother_visitor.lbx&size=visitor_brother.bin&text_anrede=${encodeURIComponent(anrede)}&text_nachname=${encodeURIComponent(nachname)}&const name = document.getElementById('name').value;
-&text_firma=${encodeURIComponent(firma)}`;
+            const url = `brotherwebprint://print?filename=brother_visitor.lbx&size=visitor_brother.bin&text_anrede=${encodeURIComponent(anrede)}&text_name=${encodeURIComponent(name)}&text_nachname=${encodeURIComponent(nachname)}&text_firma=${encodeURIComponent(firma)}`;
             window.open(url, '_blank');
 
             // Return to welcome page after check-in and reset the form
@@ -179,3 +178,4 @@
     </script>
 </body>
 </html>
+
